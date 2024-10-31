@@ -39,18 +39,11 @@ public class Main {
         System.out.println("Красивых слов с длиной 4:" + lengthWord4+ " шт");
         System.out.println("Красивых слов с длиной 5:" + lengthWord5 + " шт");
     }
-    public static boolean isPalindrome(String word) {
-        int left = 0;
-        int right = word.length() - 1;
-
-        while (left < right) {
-            if (Character.toLowerCase(word.charAt(left++)) != Character.toLowerCase(word.charAt(right--))) {
-                return false;
-            }
-        }
-
-        return true;
+    private static boolean isPalindrome(String text) {
+        String reversed = new StringBuilder(text).reverse().toString();
+        return text.equals(reversed);
     }
+
 
     public static String generateText(String letters, int length) {
         Random random = new Random();
