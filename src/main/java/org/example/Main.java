@@ -1,5 +1,7 @@
 package org.example;
 
+import com.sun.source.doctree.ThrowsTree;
+
 import javax.sound.midi.Soundbank;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -14,27 +16,34 @@ public class Main {
         for (int i = 0; i < texts.length; i++) {
             texts[i] = generateText("abc", 3 + random.nextInt(3));
         }
-        new Thread(()-> {
+        Thread t1 = new Thread(()-> {
             for (int i = 0; i <100_000 ; i++) {
                 if(texts[i].length() == 3 && isPalindrome(texts[i])){
                     lengthWord3.incrementAndGet();
                 }
             }
-        }).start();
-        new Thread(()-> {
+        });
+       Thread t2 =  new Thread(()-> {
             for (int i = 0; i < 100_000; i++) {
                 if(texts[i].length() == 4 && isPalindrome(texts[i])){
                     lengthWord4.incrementAndGet();
                 }
             }
-        }).start();
-        new Thread(() -> {
+        });
+        Thread t3= new Thread(() -> {
             for (int i = 0; i < 100_000; i++) {
                 if(texts[i].length() ==5 && isPalindrome(texts[i])){
                     lengthWord5.incrementAndGet();
                 }
             }
-        }).start();
+        });
+        t1.start();
+        t2.start();
+        t3.start();
+
+        t1.join();
+        t2.join();
+        t3.join();
         System.out.println("Красивых слов с длиной 3:" + lengthWord3 + " шт");
         System.out.println("Красивых слов с длиной 4:" + lengthWord4+ " шт");
         System.out.println("Красивых слов с длиной 5:" + lengthWord5 + " шт");
